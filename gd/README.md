@@ -1,2 +1,2 @@
-# Geometry-Dash
-I'm recreating Geometry Dash in HTML
+# gdl
+Geometry Dash Lite ripped straight off of geometrydashlite.io
