@@ -1,5 +1,6 @@
 # Blizzard info
-EaglerCraftX Client for 1.8
+A site i made for blizzard smp
+very cool frfr
   
   
 ### Links:
