@@ -1,5 +1,5 @@
 var clicks = 0;
-var testTime = 10;
+var testTime = 1;
 var button = document.getElementById("btn");
 var progressbar = document.getElementById("btnprog");
 
