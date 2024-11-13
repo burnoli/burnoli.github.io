@@ -8,7 +8,7 @@ canvas.addEventListener("mouseup", function (event) {
 	// Check if the dropped element is an element on the canvas
 	if (droppedElement.classList.contains("element")) {
 		// Check if the dropped element overlaps with any other element
-		const elements = canvas.querySelectorAll(".element");
+		const elements = canvas.querySelectorAll("element");
 		elements.forEach(async (element) => {
 			if (element !== droppedElement && isOverlapping(droppedElement, element)) {
 				// Merge the elements if they can be merged
