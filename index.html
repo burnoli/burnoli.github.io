@@ -54,7 +54,7 @@
       transition: all 0.3s ease;
     }
 
-    #darkModeToggle, #signInButton {
+    #darkModeToggle {
       background: rgba(255,255,255,0.15);
       color: white;
       backdrop-filter: blur(5px);
@@ -200,7 +200,7 @@
 
     <div class="card" id="authSection">
       <h2>Sign Up / Sign In</h2>
-      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="username" placeholder="Username" required>
       <input type="password" id="password" placeholder="Password" required>
       <button id="signupBtn">Sign Up</button>
       <button id="loginBtn">Login</button>
@@ -209,8 +209,8 @@
     </div>
 
     <div class="card suggestions-form">
-      <h2>💡 Suggestions</h2>
-      <textarea id="suggestionInput" placeholder="Put suggestions here" required></textarea>
+      <h2>Suggestions</h2>
+      <textarea id="suggestionInput" placeholder="Put suggestions here (you have to be logged in)" required></textarea>
       <button id="submitSuggestion">Submit Suggestion</button>
       <p id="suggestionStatus" style="margin-top:10px; font-size:14px;"></p>
     </div>
@@ -248,6 +248,9 @@
     } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
     import { 
       getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc, 
       collection, 
       addDoc, 
       serverTimestamp 
@@ -268,7 +271,8 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const emailEl = document.getElementById('email');
+    // Elements
+    const usernameEl = document.getElementById('username');
     const passwordEl = document.getElementById('password');
     const signupBtn = document.getElementById('signupBtn');
     const loginBtn = document.getElementById('loginBtn');
@@ -278,9 +282,22 @@
     const submitBtn = document.getElementById('submitSuggestion');
     const suggestionStatus = document.getElementById('suggestionStatus');
 
-    onAuthStateChanged(auth, (user) => {
+    // Helper: username → fake email
+    function usernameToEmail(username) {
+      return `${username}@app.com`; // choose your fake domain
+    }
+
+    // Track logged-in state
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        authStatus.textContent = `Logged in as ${user.email}`;
+        // Fetch username from Firestore
+        let displayName = user.email;
+        // Look up user doc
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          displayName = userDoc.data().username;
+        }
+        authStatus.textContent = `Logged in as ${displayName}`;
         logoutBtn.style.display = 'inline-block';
       } else {
         authStatus.textContent = 'Not logged in';
@@ -288,29 +305,77 @@
       }
     });
 
+    // Sign Up with username
     signupBtn.addEventListener('click', async () => {
+      const username = usernameEl.value.trim().toLowerCase();
+      const password = passwordEl.value.trim();
+      if (!username || !password) {
+        authStatus.textContent = "Please enter username and password.";
+        return;
+      }
+
       try {
-        const userCred = await createUserWithEmailAndPassword(auth, emailEl.value, passwordEl.value);
-        authStatus.textContent = `Signed up as ${userCred.user.email}`;
+        // Check if username exists
+        const usernameRef = doc(db, "usernames", username);
+        const usernameSnap = await getDoc(usernameRef);
+        if (usernameSnap.exists()) {
+          authStatus.textContent = "❌ Username already taken.";
+          return;
+        }
+
+        // Create Firebase Auth user
+        const email = usernameToEmail(username);
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCred.user.uid;
+
+        // Store mapping + profile
+        await setDoc(usernameRef, { uid, email });
+        await setDoc(doc(db, "users", uid), {
+          username,
+          email,
+          createdAt: new Date()
+        });
+
+        authStatus.textContent = `✅ Signed up as ${username}`;
       } catch (err) {
         authStatus.textContent = `Error: ${err.message}`;
       }
     });
 
+    // Login with username
     loginBtn.addEventListener('click', async () => {
+      const username = usernameEl.value.trim().toLowerCase();
+      const password = passwordEl.value.trim();
+      if (!username || !password) {
+        authStatus.textContent = "Please enter username and password.";
+        return;
+      }
+
       try {
-        const userCred = await signInWithEmailAndPassword(auth, emailEl.value, passwordEl.value);
-        authStatus.textContent = `Logged in as ${userCred.user.email}`;
+        const email = usernameToEmail(username);
+
+        // Optionally check existence
+        const usernameRef = doc(db, "usernames", username);
+        const snap = await getDoc(usernameRef);
+        if (!snap.exists()) {
+          authStatus.textContent = "❌ Username not found.";
+          return;
+        }
+
+        const userCred = await signInWithEmailAndPassword(auth, email, password);
+        // username will show up via onAuthStateChanged
       } catch (err) {
         authStatus.textContent = `Error: ${err.message}`;
       }
     });
 
+    // Logout
     logoutBtn.addEventListener('click', async () => {
       await signOut(auth);
       authStatus.textContent = 'Logged out';
     });
 
+    // Submit suggestion
     submitBtn.addEventListener('click', async () => {
       const suggestion = suggestionInput.value.trim();
       const user = auth.currentUser;
