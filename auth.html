@@ -1,0 +1,75 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Firebase Auth Example</title>
+    <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth-compat.js"></script>
+  </head>
+  <body>
+    <h2>Sign Up</h2>
+    <input type="email" id="signup-email" placeholder="Email" />
+    <input type="password" id="signup-password" placeholder="Password" />
+    <button onclick="signUp()">Sign Up</button>
+
+    <h2>Log In</h2>
+    <input type="email" id="login-email" placeholder="Email" />
+    <input type="password" id="login-password" placeholder="Password" />
+    <button onclick="logIn()">Log In</button>
+
+    <h2>Status</h2>
+    <p id="status">Not logged in</p>
+
+    <script>
+      // 🔥 Your Firebase Config (replace this with your actual config)
+      const firebaseConfig = {
+    apiKey: "AIzaSyCu0Ztd-n7hfruykfYI8jenMf5eIKKeZcE",
+    authDomain: "burnoligithub.firebaseapp.com",
+    projectId: "burnoligithub",
+    storageBucket: "burnoligithub.firebasestorage.app",
+    messagingSenderId: "973403605126",
+    appId: "1:973403605126:web:992fdf57408a2f45426907",
+    measurementId: "G-GWWXBJYSFE"
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Sign Up
+      function signUp() {
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
+        auth.createUserWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            document.getElementById("status").innerText = "Signed up: " + userCredential.user.email;
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+
+      // Log In
+      function logIn() {
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+        auth.signInWithEmailAndPassword(email, password)
+          .then((userCredential) => {
+            document.getElementById("status").innerText = "Logged in: " + userCredential.user.email;
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
+      }
+
+      // Monitor Auth State
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          document.getElementById("status").innerText = "Logged in as: " + user.email;
+        } else {
+          document.getElementById("status").innerText = "Not logged in";
+        }
+      });
+    </script>
+  </body>
+</html>
