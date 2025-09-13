@@ -296,32 +296,31 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
 
+    <!-- Suggestions Submission Script -->
+    const submitBtn = document.getElementById('submitSuggestion');
+    const input = document.getElementById('suggestionInput');
+    const status = document.getElementById('suggestionStatus');
 
-<!-- Suggestions Submission Script -->
-  const submitBtn = document.getElementById('submitSuggestion');
-  const input = document.getElementById('suggestionInput');
-  const status = document.getElementById('suggestionStatus');
+    submitBtn.addEventListener('click', async () => {
+        const suggestion = input.value.trim();
+        if (!suggestion) {
+        status.textContent = "Please enter a suggestion.";
+        return;
+        }
 
-  submitBtn.addEventListener('click', async () => {
-    const suggestion = input.value.trim();
-    if (!suggestion) {
-      status.textContent = "Please enter a suggestion.";
-      return;
-    }
-
-    try {
-      await addDoc(collection(db, "suggestions"), {
-        text: suggestion,
-        timestamp: serverTimestamp()
-      });
-      status.textContent = "✅ Suggestion submitted!";
-      input.value = "";
-    } catch (error) {
-      console.error("Error submitting suggestion:", error);
-      status.textContent = "❌ Error submitting suggestion. Try again later.";
-    }
-  });
-</script>
+        try {
+        await addDoc(collection(db, "suggestions"), {
+            text: suggestion,
+            timestamp: serverTimestamp()
+        });
+        status.textContent = "✅ Suggestion submitted!";
+        input.value = "";
+        } catch (error) {
+        console.error("Error submitting suggestion:", error);
+        status.textContent = "❌ Error submitting suggestion. Try again later.";
+        }
+    });
+  </script>
 
 </body>
 </html>
