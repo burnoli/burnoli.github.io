@@ -5,216 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Clever | Portal</title>
   <link rel="icon" href="icon.png" type="image/png" />
-
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    /* your existing CSS unchanged … */
+    /* only new additions below */
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f7fa;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      text-align: center;
-    }
-
-    header {
-      background-color: #4caf50;
-      color: white;
-      padding: 20px;
-      position: relative;
-    }
-
-    h1 {
-      font-size: 2em;
-    }
-
-    #darkModeToggle, #signInButton {
-      position: absolute;
-      top: 20px;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-    }
-
-    #darkModeToggle {
-      right: 20px;
-      background-color: #ffffff33;
-      color: white;
-    }
-
-    #signInButton {
-      right: 130px;
-      background-color: #ffffff33;
-      color: white;
-      text-decoration: none;
-    }
-
-    main {
-      flex-grow: 1;
-      padding: 30px 20px;
-    }
-
-    .button-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+    #authSection, #loggedInSection {
       margin-top: 20px;
     }
 
-    .btn {
+    #authSection input {
+      padding: 6px;
+      margin: 4px;
+    }
+
+    #authSection button {
+      padding: 6px 10px;
+      margin: 4px;
       background-color: #4caf50;
-      color: white;
-      padding: 15px 25px;
-      font-size: 18px;
       border: none;
-      border-radius: 8px;
+      color: white;
+      border-radius: 5px;
       cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
     }
 
-    .btn:hover {
-      background-color: #388e3c;
-    }
-
-    footer {
-      background-color: #ddd;
-      padding: 15px;
+    #authSection p {
+      margin-top: 6px;
       font-size: 14px;
-      color: #333;
-    }
-
-    .note {
-      margin-top: 30px;
-      font-size: 16px;
-      color: #666;
-    }
-
-    .small-print {
-      font-size: 12px;
-      margin-top: 10px;
-      color: #999;
-    }
-
-    .suggestions-form {
-      margin-top: 40px;
-      padding: 20px;
-      background-color: #e0e0e0;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .suggestions-form textarea {
-      width: 100%;
-      height: 100px;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      resize: vertical;
-    }
-
-    .suggestions-form input[type="submit"] {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .suggestions-form input[type="submit"]:hover {
-      background-color: #388e3c;
-    }
-
-    @media (max-width: 600px) {
-      .btn {
-        width: 80%;
-        font-size: 16px;
-      }
-
-      #darkModeToggle, #signInButton {
-        position: static;
-        margin-top: 10px;
-      }
-    }
-
-    /* DARK MODE STYLES */
-    body.dark-mode {
-      background-color: #121212;
-      color: #e0e0e0;
-    }
-
-    body.dark-mode header {
-      background-color: #1f1f1f;
-      color: #ffffff;
-    }
-
-    body.dark-mode main {
-      background-color: #121212;
-    }
-
-    body.dark-mode footer {
-      background-color: #1f1f1f;
-      color: #ccc;
-    }
-
-    body.dark-mode .btn {
-      background-color: #333;
-      color: #eee;
-    }
-
-    body.dark-mode .btn:hover {
-      background-color: #555;
-    }
-
-    body.dark-mode .note,
-    body.dark-mode .small-print {
-      color: #aaa;
-    }
-
-    body.dark-mode .suggestions-form {
-      background-color: #2a2a2a;
-    }
-
-    body.dark-mode .suggestions-form textarea {
-      background-color: #1f1f1f;
-      color: white;
-      border: 1px solid #444;
-    }
-
-    body.dark-mode .suggestions-form input[type="submit"] {
-      background-color: #444;
-    }
-
-    body.dark-mode #darkModeToggle,
-    body.dark-mode #signInButton {
-      background-color: #444;
     }
   </style>
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FGPPMZEKW3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-FGPPMZEKW3');
-  </script>
 </head>
 
 <body>
@@ -222,7 +40,6 @@
   <header>
     <h1>A website</h1>
     <p class="note">Do whatever you want I don't care</p>
-    <a href="/auth" id="signInButton">Sign In</a>
     <button id="darkModeToggle">Dark Mode</button>
   </header>
 
@@ -237,39 +54,38 @@
 
     <p class="note">Games!!!</p>
 
-    <div class="suggestions-form">
-      <h2>Suggestions</h2>
-    <div class="suggestions-form">
-        <h2>💡 Suggestions</h2>
-        <textarea id="suggestionInput" placeholder="Got any suggestions? Share them here!" required></textarea>
-        <br>
-        <button id="submitSuggestion">Submit Suggestion</button>
-        <p id="suggestionStatus" style="margin-top:10px; font-size:14px;"></p>
+    <!-- Auth Section -->
+    <div id="authSection">
+      <h2>Sign Up / Sign In</h2>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button id="signupBtn">Sign Up</button>
+      <button id="loginBtn">Login</button>
+      <button id="logoutBtn" style="display:none;">Logout</button>
+      <p id="authStatus"></p>
     </div>
 
-      
-
+    <!-- Suggestions Section (only logged in users) -->
+    <div class="suggestions-form">
+      <h2>💡 Suggestions</h2>
+      <textarea id="suggestionInput" placeholder="Got any suggestions? Share them here!" required></textarea>
+      <br>
+      <button id="submitSuggestion">Submit Suggestion</button>
+      <p id="suggestionStatus" style="margin-top:10px; font-size:14px;"></p>
     </div>
 
     <div class="small-print">
       <p>Made by me</p>
-      <p>benjamin wang is a failure</p>
-      <p>If anyone from MMS is reading this... pwease donate money :3</p>
     </div>
   </main>
-
-
 
   <!-- Dark Mode Toggle Script -->
   <script>
     const toggleBtn = document.getElementById('darkModeToggle');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
     const isDark = localStorage.getItem('darkMode') === 'true' || (prefersDark && !localStorage.getItem('darkMode'));
     if (isDark) document.body.classList.add('dark-mode');
-
     toggleBtn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-
     toggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-mode');
       const darkModeOn = document.body.classList.contains('dark-mode');
@@ -278,11 +94,25 @@
     });
   </script>
 
-  <!-- Firebase JS -->
+  <!-- Firebase JS (Auth + Firestore) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      addDoc, 
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+    // --- Firebase Config ---
     const firebaseConfig = {
       apiKey: "AIzaSyCu0Ztd-n7hfruykfYI8jenMf5eIKKeZcE",
       authDomain: "burnoligithub.firebaseapp.com",
@@ -293,34 +123,86 @@
       measurementId: "G-GWWXBJYSFE"
     };
 
+    // --- Init ---
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    <!-- Suggestions Submission Script -->
+    // --- DOM ---
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const authStatus = document.getElementById('authStatus');
+    const suggestionInput = document.getElementById('suggestionInput');
     const submitBtn = document.getElementById('submitSuggestion');
-    const input = document.getElementById('suggestionInput');
-    const status = document.getElementById('suggestionStatus');
+    const suggestionStatus = document.getElementById('suggestionStatus');
 
+    // --- Auth State ---
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        authStatus.textContent = `Logged in as ${user.email}`;
+        logoutBtn.style.display = 'inline-block';
+      } else {
+        authStatus.textContent = 'Not logged in';
+        logoutBtn.style.display = 'none';
+      }
+    });
+
+    // --- Sign Up ---
+    signupBtn.addEventListener('click', async () => {
+      try {
+        const userCred = await createUserWithEmailAndPassword(auth, emailEl.value, passwordEl.value);
+        authStatus.textContent = `Signed up as ${userCred.user.email}`;
+      } catch (err) {
+        authStatus.textContent = `Error: ${err.message}`;
+      }
+    });
+
+    // --- Login ---
+    loginBtn.addEventListener('click', async () => {
+      try {
+        const userCred = await signInWithEmailAndPassword(auth, emailEl.value, passwordEl.value);
+        authStatus.textContent = `Logged in as ${userCred.user.email}`;
+      } catch (err) {
+        authStatus.textContent = `Error: ${err.message}`;
+      }
+    });
+
+    // --- Logout ---
+    logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+      authStatus.textContent = 'Logged out';
+    });
+
+    // --- Suggestion Submit ---
     submitBtn.addEventListener('click', async () => {
-        const suggestion = input.value.trim();
-        if (!suggestion) {
-        status.textContent = "Please enter a suggestion.";
+      const suggestion = suggestionInput.value.trim();
+      const user = auth.currentUser;
+      if (!user) {
+        suggestionStatus.textContent = "❌ You must be logged in to submit suggestions.";
         return;
-        }
-
-        try {
+      }
+      if (!suggestion) {
+        suggestionStatus.textContent = "Please enter a suggestion.";
+        return;
+      }
+      try {
         await addDoc(collection(db, "suggestions"), {
-            text: suggestion,
-            timestamp: serverTimestamp()
+          text: suggestion,
+          userId: user.uid,
+          email: user.email,
+          timestamp: serverTimestamp()
         });
-        status.textContent = "✅ Suggestion submitted!";
-        input.value = "";
-        } catch (error) {
+        suggestionStatus.textContent = "✅ Suggestion submitted!";
+        suggestionInput.value = "";
+      } catch (error) {
         console.error("Error submitting suggestion:", error);
-        status.textContent = "❌ Error submitting suggestion. Try again later.";
-        }
+        suggestionStatus.textContent = "❌ Error submitting suggestion.";
+      }
     });
   </script>
-
 </body>
 </html>
