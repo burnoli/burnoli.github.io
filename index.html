@@ -33,6 +33,30 @@
       font-size: 2em;
     }
 
+    #darkModeToggle, #signInButton {
+      position: absolute;
+      top: 20px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    #darkModeToggle {
+      right: 20px;
+      background-color: #ffffff33;
+      color: white;
+    }
+
+    #signInButton {
+      right: 130px;
+      background-color: #ffffff33;
+      color: white;
+      text-decoration: none;
+    }
+
     main {
       flex-grow: 1;
       padding: 30px 20px;
@@ -81,10 +105,51 @@
       color: #999;
     }
 
+    .suggestions-form {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .suggestions-form textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    .suggestions-form input[type="submit"] {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .suggestions-form input[type="submit"]:hover {
+      background-color: #388e3c;
+    }
+
     @media (max-width: 600px) {
       .btn {
         width: 80%;
         font-size: 16px;
+      }
+
+      #darkModeToggle, #signInButton {
+        position: static;
+        margin-top: 10px;
       }
     }
 
@@ -122,22 +187,22 @@
       color: #aaa;
     }
 
-    /* Toggle button */
-    #darkModeToggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #ffffff33;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
+    body.dark-mode .suggestions-form {
+      background-color: #2a2a2a;
     }
 
-    body.dark-mode #darkModeToggle {
+    body.dark-mode .suggestions-form textarea {
+      background-color: #1f1f1f;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    body.dark-mode .suggestions-form input[type="submit"] {
+      background-color: #444;
+    }
+
+    body.dark-mode #darkModeToggle,
+    body.dark-mode #signInButton {
       background-color: #444;
     }
   </style>
@@ -157,6 +222,7 @@
   <header>
     <h1>A website</h1>
     <p class="note">Do whatever you want I don't care</p>
+    <a href="/auth" id="signInButton">Sign In</a>
     <button id="darkModeToggle">Dark Mode</button>
   </header>
 
@@ -171,12 +237,22 @@
 
     <p class="note">Games!!!</p>
 
+    <div class="suggestions-form">
+      <h2>Suggestions</h2>
+      <form action="mailto:b6235980@gmail.com" method="POST" enctype="text/plain">
+        <textarea name="suggestion" placeholder="Write something" required></textarea>
+        <br>
+        <input type="submit" value="Submit Suggestion">
+      </form>
+    </div>
+
     <div class="small-print">
       <p>Made by me</p>
       <p>benjamin wang is a failure</p>
-      <p>go check out ethans website too</p>
+      <p>If anyone from MMS is reading this... pwease donate money :3</p>
     </div>
   </main>
+
 
 
   <!-- Dark Mode Toggle Script -->
