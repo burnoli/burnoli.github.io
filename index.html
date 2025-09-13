@@ -239,11 +239,16 @@
 
     <div class="suggestions-form">
       <h2>Suggestions</h2>
-      <form action="mailto:b6235980@gmail.com" method="POST" enctype="text/plain">
-        <textarea name="suggestion" placeholder="Write something" required></textarea>
+    <div class="suggestions-form">
+        <h2>💡 Suggestions</h2>
+        <textarea id="suggestionInput" placeholder="Got any suggestions? Share them here!" required></textarea>
         <br>
-        <input type="submit" value="Submit Suggestion">
-      </form>
+        <button id="submitSuggestion">Submit Suggestion</button>
+        <p id="suggestionStatus" style="margin-top:10px; font-size:14px;"></p>
+    </div>
+
+      
+
     </div>
 
     <div class="small-print">
@@ -291,5 +296,33 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   </script>
+
+<!-- Suggestions Submission Script -->
+<script type="module">
+  const submitBtn = document.getElementById('submitSuggestion');
+  const input = document.getElementById('suggestionInput');
+  const status = document.getElementById('suggestionStatus');
+
+  submitBtn.addEventListener('click', async () => {
+    const suggestion = input.value.trim();
+    if (!suggestion) {
+      status.textContent = "Please enter a suggestion.";
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "suggestions"), {
+        text: suggestion,
+        timestamp: serverTimestamp()
+      });
+      status.textContent = "✅ Suggestion submitted!";
+      input.value = "";
+    } catch (error) {
+      console.error("Error submitting suggestion:", error);
+      status.textContent = "❌ Error submitting suggestion. Try again later.";
+    }
+  });
+</script>
+
 </body>
 </html>
