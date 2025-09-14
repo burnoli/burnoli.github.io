@@ -43,7 +43,7 @@
       <button id="darkModeToggle">Dark Mode</button>
       <a href="index.html" class="btn">Home</a>
       <a href="profile.html" class="btn">Profile</a>
-      <a href="index.html" class="btn">Login</a>
+      <a href="login.html" class="btn">Login</a>
     </div>
   </header>
 
@@ -105,74 +105,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const usernameEl = document.getElementById('username');
-    const passwordEl = document.getElementById('password');
-    const signupBtn = document.getElementById('signupBtn');
-    const loginBtn = document.getElementById('loginBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const authStatus = document.getElementById('authStatus');
-    const suggestionInput = document.getElementById('suggestionInput');
-    const submitBtn = document.getElementById('submitSuggestion');
-    const suggestionStatus = document.getElementById('suggestionStatus');
-
-    function usernameToEmail(username) { return `${username}@app.com`; }
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        let displayName = user.email;
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) displayName = userDoc.data().username;
-        authStatus.textContent = `Logged in as ${displayName}`;
-        logoutBtn.style.display = 'inline-block';
-      } else {
-        authStatus.textContent = 'Not logged in';
-        logoutBtn.style.display = 'none';
-      }
-    });
-
-    signupBtn.addEventListener('click', async () => {
-      const username = usernameEl.value.trim().toLowerCase();
-      const password = passwordEl.value.trim();
-      if (!username || !password) { authStatus.textContent = "Enter username and password"; return; }
-      try {
-        const usernameRef = doc(db, "usernames", username);
-        const snap = await getDoc(usernameRef);
-        if (snap.exists()) { authStatus.textContent = "Username taken"; return; }
-        const email = usernameToEmail(username);
-        const userCred = await createUserWithEmailAndPassword(auth, email, password);
-        const uid = userCred.user.uid;
-        await setDoc(usernameRef, { uid, email });
-        await setDoc(doc(db, "users", uid), { username, email, createdAt: new Date() });
-        authStatus.textContent = `Signed up as ${username}`;
-      } catch (err) { authStatus.textContent = "Error: " + err.message; }
-    });
-
-    loginBtn.addEventListener('click', async () => {
-      const username = usernameEl.value.trim().toLowerCase();
-      const password = passwordEl.value.trim();
-      if (!username || !password) { authStatus.textContent = "Enter username and password"; return; }
-      try {
-        const email = usernameToEmail(username);
-        const usernameRef = doc(db, "usernames", username);
-        const snap = await getDoc(usernameRef);
-        if (!snap.exists()) { authStatus.textContent = "Username not found"; return; }
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) { authStatus.textContent = "Error: " + err.message; }
-    });
-
-    logoutBtn.addEventListener('click', async () => { await signOut(auth); authStatus.textContent = 'Logged out'; });
-
-    submitBtn.addEventListener('click', async () => {
-      const suggestion = suggestionInput.value.trim();
-      const user = auth.currentUser;
-      if (!user) { suggestionStatus.textContent = "You must be logged in."; return; }
-      if (!suggestion) { suggestionStatus.textContent = "Enter a suggestion."; return; }
-      try {
-        await addDoc(collection(db, "suggestions"), { text: suggestion, userId: user.uid, email: user.email, timestamp: serverTimestamp() });
-        suggestionStatus.textContent = "Suggestion submitted!";
-        suggestionInput.value = "";
-      } catch (err) { suggestionStatus.textContent = "Error submitting suggestion."; }
-    });
+ 
   </script>
 </body>
 </html>
