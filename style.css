@@ -1,0 +1,89 @@
+/* style.css */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(135deg, #43a047, #2e7d32);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+}
+
+header .actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 15px;
+  background: rgba(255,255,255,0.15);
+  color:white;
+  text-decoration:none;
+}
+
+.btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+main {
+  flex-grow: 1;
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  margin: 30px auto;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.card button {
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  margin-top: 10px;
+}
+
+.card button:hover {
+  background-color: #388e3c;
+}
+
+/* dark mode toggle */
+.dark-mode {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
