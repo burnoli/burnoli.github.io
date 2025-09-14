@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Signup</title>
+  <style>
+    body { font-family: Arial; display: flex; justify-content: center; padding: 40px; }
+    .card { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); max-width: 400px; width: 100%; }
+    input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; }
+    button { width: 100%; padding: 12px; background: #4caf50; color: #fff; border: none; border-radius: 8px; margin-bottom: 10px; cursor: pointer; }
+    button:hover { background: #388e3c; }
+    a { display: block; margin-top: 10px; text-decoration: none; color: #4caf50; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Login / Signup</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Login</button>
+    <p id="authStatus"></p>
+    <a href="profile.html">Go to Profile</a>
+    <a href="reset-password.html">Forgot Password?</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCu0Ztd-n7hfruykfYI8jenMf5eIKKeZcE",
+      authDomain: "burnoligithub.firebaseapp.com",
+      projectId: "burnoligithub",
+      storageBucket: "burnoligithub.firebasestorage.app",
+      messagingSenderId: "973403605126",
+      appId: "1:973403605126:web:992fdf57408a2f45426907",
+      measurementId: "G-GWWXBJYSFE"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const usernameEl = document.getElementById('username');
+    const passwordEl = document.getElementById('password');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginBtn = document.getElementById('loginBtn');
+    const authStatus = document.getElementById('authStatus');
+
+    function usernameToEmail(username) { return `${username.toLowerCase()}@app.com`; }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const displayName = userDoc.exists() ? userDoc.data().username : user.email;
+        authStatus.textContent = `Logged in as ${displayName}`;
+      } else {
+        authStatus.textContent = "Not logged in";
+      }
+    });
+
+    signupBtn.addEventListener('click', async () => {
+      const username = usernameEl.value.trim().toLowerCase();
+      const password = passwordEl.value.trim();
+      if (!username || !password) { authStatus.textContent = "Enter username and password"; return; }
+      try {
+        const usernameRef = doc(db, "usernames", username);
+        const snap = await getDoc(usernameRef);
+        if (snap.exists()) { authStatus.textContent = "Username taken"; return; }
+        const email = usernameToEmail(username);
+        const userCred = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCred.user.uid;
+        await setDoc(usernameRef, { uid, email });
+        await setDoc(doc(db, "users", uid), { username, email, createdAt: new Date() });
+        authStatus.textContent = `Signed up as ${username}`;
+      } catch (err) { authStatus.textContent = "Error: " + err.message; }
+    });
+
+    loginBtn.addEventListener('click', async () => {
+      const username = usernameEl.value.trim().toLowerCase();
+      const password = passwordEl.value.trim();
+      if (!username || !password) { authStatus.textContent = "Enter username and password"; return; }
+      try {
+        const email = usernameToEmail(username);
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) { authStatus.textContent = "Error: " + err.message; }
+    });
+  </script>
+</body>
+</html>

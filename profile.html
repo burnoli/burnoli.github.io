@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile | Clever Portal</title>
+  <link rel="icon" href="icon.png" type="image/png" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f5f7fa; color: #333; display: flex; flex-direction: column; min-height: 100vh; line-height: 1.6; transition: background 0.3s ease, color 0.3s ease; }
+    header { background: linear-gradient(135deg, #43a047, #2e7d32); color: white; display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+    header h1 { font-size: 1.8em; }
+    header .actions { display: flex; gap: 10px; align-items: center; }
+    button, a.btn { cursor: pointer; border: none; border-radius: 10px; padding: 10px 18px; font-size: 15px; transition: all 0.3s ease; text-decoration:none; color:white; background: rgba(255,255,255,0.15); backdrop-filter: blur(5px); }
+    button:hover, a.btn:hover { background: rgba(255,255,255,0.3); }
+    main { flex-grow: 1; padding: 40px 20px; max-width: 600px; margin: auto; }
+    .card { background: white; padding: 25px; margin: 30px auto; border-radius: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
+    .card h2 { margin-bottom: 15px; font-size: 1.5em; }
+    input { width: 100%; margin: 8px 0; padding: 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; }
+    .card button { width: 100%; background-color: #4caf50; color: white; margin-top: 10px; }
+    .card button:hover { background-color: #388e3c; }
+    footer { background-color: #ddd; padding: 15px; font-size: 14px; color: #333; text-align: center; }
+    body.dark-mode { background-color: #121212; color: #e0e0e0; }
+    body.dark-mode header { background: #1f1f1f; color: #fff; }
+    body.dark-mode .card { background-color: #1f1f1f; color: #eee; }
+    body.dark-mode input { background-color: #2a2a2a; color: #fff; border: 1px solid #444; }
+    body.dark-mode .card button { background-color: #333; color: #eee; }
+    body.dark-mode .card button:hover { background-color: #555; }
+    body.dark-mode footer { background-color: #1f1f1f; color: #aaa; }
+    body, header, main, footer, .card, .card button { transition: background 0.3s ease, color 0.3s ease; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Profile</h1>
+    <div class="actions">
+      <button id="darkModeToggle">Dark Mode</button>
+      <a href="index.html" class="btn">Home</a>
+      <a href="profile.html" class="btn">Profile</a>
+      <a href="index.html" class="btn">Login</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Your Profile</h2>
+      <p id="usernameDisplay">Username: </p>
+      <input type="email" id="emailInput" placeholder="Add or update email" required>
+      <button id="saveEmailBtn">Save Email</button>
+      <p id="emailStatus" style="margin-top:10px; font-size:14px;"></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>Made by me</p>
+  </footer>
+
+  <script>
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = localStorage.getItem('darkMode') === 'true' || (prefersDark && !localStorage.getItem('darkMode'));
+    if (isDark) document.body.classList.add('dark-mode');
+    toggleBtn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+      toggleBtn.textContent = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+    });
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey:"AIzaSyCu0Ztd-n7hfruykfYI8jenMf5eIKKeZcE", authDomain:"burnoligithub.firebaseapp.com", projectId:"burnoligithub", storageBucket:"burnoligithub.firebasestorage.app", messagingSenderId:"973403605126", appId:"1:973403605126:web:992fdf57408a2f45426907", measurementId:"G-GWWXBJYSFE"};
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const usernameDisplay = document.getElementById('usernameDisplay');
+    const emailInput = document.getElementById('emailInput');
+    const saveEmailBtn = document.getElementById('saveEmailBtn');
+    const emailStatus = document.getElementById('emailStatus');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        usernameDisplay.textContent = "Not logged in";
+        saveEmailBtn.disabled = true;
+        return;
+      }
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (userDoc.exists()) {
+        usernameDisplay.textContent = "Username: " + userDoc.data().username;
+        emailInput.value = userDoc.data().realEmail || "";
+      }
+    });
+
+    saveEmailBtn.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (!user) { emailStatus.textContent = "Not logged in"; return; }
+      const email = emailInput.value.trim();
+      if (!email) { emailStatus.textContent = "Enter a valid email"; return; }
+      try {
+        await setDoc(doc(db, "users", user.uid), { realEmail: email }, { merge: true });
+        emailStatus.textContent = "✅ Email saved!";
+      } catch (err) {
+        emailStatus.textContent = "❌ Error saving email: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
