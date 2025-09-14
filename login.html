@@ -35,6 +35,15 @@
 
 </head>
 <body>
+  <header>
+    <h1>Login / Signup
+    <div class="actions">
+      <button id="darkModeToggle">Dark Mode</button>
+      <a href="index.html" class="btn">Home</a>
+      <a href="profile.html" class="btn">Profile</a>
+      <a href="login.html" class="btn">Login</a>
+    </div>
+  </header>  
   <div class="card">
     <h2>Login / Signup</h2>
     <input type="text" id="username" placeholder="Username">
@@ -45,15 +54,7 @@
     <a href="profile.html">Go to Profile</a>
     <a href="reset-password.html">Forgot Password?</a>
   </div>
-  <header>
-    <h1>A Website</h1>
-    <div class="actions">
-      <button id="darkModeToggle">Dark Mode</button>
-      <a href="index.html" class="btn">Home</a>
-      <a href="profile.html" class="btn">Profile</a>
-      <a href="login.html" class="btn">Login</a>
-    </div>
-  </header>
+
   <script>
     const toggleBtn = document.getElementById('darkModeToggle');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
