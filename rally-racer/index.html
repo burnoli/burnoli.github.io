@@ -16,6 +16,11 @@
                     <h1>Rally Racer Dirt</h1>
                 </a>
             </div>
+            <ul class="nav-links">
+                <li><a href="/newgame.html">New Games</a></li>
+                <li><a href="/hotgame.html">Hot Games</a></li>
+                <li><a href="/cars.html">Cars</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -50,6 +55,135 @@
                 </div>
             </div>
         </section>
-</main>
+
+        <div class="game-info-container">
+            <div class="control-instructions">
+                <h3>How to Play Rally Racer Dirt</h3>
+                <div class="game-description">
+                    <p>Welcome to Rally Racer Dirt - the ultimate off-road racing experience! Take control of powerful rally cars and race through challenging dirt tracks across various terrains and weather conditions. From muddy forest paths to treacherous mountain roads, each track offers unique challenges and thrilling racing moments.</p>
+                    <p>Test your driving skills against time or compete with other players in multiplayer mode. Unlock new vehicles, customize your car's performance, and climb the global leaderboards. With realistic physics and dynamic weather systems, every race is an exciting new adventure!</p>
+                    <p>Whether you're a casual player or a hardcore racing enthusiast, Rally Racer Dirt offers multiple difficulty levels to match your skill level. Start your engines and experience the adrenaline rush of rally racing!</p>
+                </div>
+                
+                <h4>Game Controls:</h4>
+                <ul>
+                    <li>↑ - Accelerate</li>
+                    <li>↓ - Brake</li>
+                    <li>← - Turn Left</li>
+                    <li>→ - Turn Right</li>
+                    <li>Space - Handbrake</li>
+                    <li>R - Reset Car</li>
+                </ul>
+                
+                <div class="game-tips">
+                    <h4>Racing Tips:</h4>
+                    <ul>
+                        <li>Use handbrake for sharp turns</li>
+                        <li>Brake before corners</li>
+                        <li>Avoid hitting obstacles</li>
+                        <li>Master the drift technique</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="similar-games">
+                <h3>Similar Games</h3>
+                <div class="games-grid">
+                    <a href="/game/night-city-racing.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/night-city-racing.png" alt="Racing Game 1">
+                            <h4>Night City Racing</h4>
+                        </div>
+                    </a>
+                    <a href="/game/highway-racer-2.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/highway-racer-2.png" alt="Racing Game 2">
+                            <h4>Highway Racer 2</h4>
+                        </div>
+                    </a>
+                    <a href="/game/sportcars-crash.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/sportcars-crash.png" alt="Racing Game 3">
+                            <h4>Sport Cars Crash</h4>
+                        </div>
+                    </a>
+                    <a href="/game/mr-racer-car-racing.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/mr-racer-car-racing.png" alt="Racing Game 4">
+                            <h4>Mr Racer Car Racing</h4>
+                        </div>
+                    </a>
+                    <a href="/game/drift-io.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/drift-io.png" alt="Racing Game 5">
+                            <h4>Drift Io</h4>
+                        </div>
+                    </a>
+                    <a href="/game/2-player-dark-racing.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/2-player-dark-racing.png" alt="Racing Game 6">
+                            <h4>2 Player Dark Racing</h4>
+                        </div>
+                    </a>
+                    <a href="/game/funny-mad-racing.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/funny-mad-racing.png" alt="Racing Game 7">
+                            <h4>Funny Mad Racing</h4>
+                        </div>
+                    </a>
+                    <a href="/game/traffic-tour.html" class="game-link">
+                        <div class="game-card">
+                            <img src="/img/traffic-tour.png" alt="Racing Game 8">
+                            <h4>Traffic Tour</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="website-description">
+        <div class="description-container">
+            <div class="description-grid">
+                <div class="description-item">
+                    <h3>About Rally Racer Dirt</h3>
+                    <p>Rally Racer Dirt is your ultimate destination for online racing games. Experience the thrill of off-road racing with our carefully curated collection of high-quality racing games. From realistic rally simulators to arcade-style racing adventures, we offer something for every racing enthusiast.</p>
+                </div>
+                <div class="description-item">
+                    <h3>Our Collection</h3>
+                    <p>Discover a vast library of racing games featuring different styles and gameplay mechanics. Whether you're into rally racing, drift competitions, or track racing, our platform provides seamless access to the best racing games available online.</p>
+                </div>
+                <div class="description-item">
+                    <h3>Why Choose Us</h3>
+                    <ul>
+                        <li>Free-to-play racing games</li>
+                        <li>Regular updates with new content</li>
+                        <li>High-quality graphics and gameplay</li>
+                        <li>Cross-platform compatibility</li>
+                        <li>Active gaming community</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Rally Racer Dirt. All rights reserved.</p>
+    </footer>
+    <script src="/game.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const playButton = document.getElementById('playButton');
+            const gameIframe = document.getElementById('gameIframe');
+            const gameCanvas = document.getElementById('gameCanvas');
+
+            playButton.addEventListener('click', () => {
+                playButton.style.display = 'none';
+                gameCanvas.style.display = 'none';
+                gameIframe.style.display = 'block';
+                gameIframe.src = 'https://trafficjam3d.github.io/rally-racer-dirt/';
+            });
+        });
+    </script>
 </body>
-</html>
+</html> 
