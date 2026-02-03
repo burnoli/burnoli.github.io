@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rally Racer Dirt - Play Rally Racer Dirt Unblocked</title>
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Rally Racer Dirt is a drift based rally game . Drift on asphalt and dirt, while climbing through the hills. This category redefined with Rally Racer Dirt.">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/index.html">
+                    <h1>Rally Racer Dirt</h1>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/newgame.html">New Games</a></li>
+                <li><a href="/hotgame.html">Hot Games</a></li>
+                <li><a href="/cars.html">Cars</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="game-container">
+            <div class="canvas-container">
+                <canvas id="gameCanvas"></canvas>
+                <button id="playButton">
+                    <svg viewBox="0 0 24 24" width="48" height="48">
+                        <path fill="currentColor" d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+                <iframe id="gameIframe"
+                    src="about:blank"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <div class="game-controls">
+                <div class="screen-controls">
+                    <div class="game-title">
+                        <img src="https://trafficjam3d.github.io/rally-racer-dirt/logo.png" alt="Game Icon" class="game-icon">
+                        <h3>Rally Racer Dirt</h3>
+                    </div>
+                    <button id="fullscreenBtn">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+                        </svg>
+                        <span>Fullscreen</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+</main>
+</body>
+</html>
